@@ -24,4 +24,11 @@ public class ClienteDaoImpl implements IClienteDao {
 		return em.createQuery("from Cliente").getResultList();
 	}
 
+	@Override
+	@Transactional // Al ser solo escritura no hace falta el readOnly
+	public void save(Cliente cliente) {
+		// TODO Auto-generated method stub
+		em.persist(cliente);
+	}
+
 }
