@@ -30,29 +30,60 @@
 		</div>
 	</nav>
 	<div class="container">
-		<h1 class="text-secondary border-bottom border-success " th:text="${titulo}"></h1>
+		<h1 class="text-secondary border-bottom border-success "
+			th:text="${titulo}"></h1>
+
+		<div th:object="${cliente}" th:remove="tag">
+			<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+				<li th:each="err: ${#fields.errors('*')}" th:text="${err}" class="mx-2"></li>
+			</ul>
+		</div>
+
 		<form th:action="@{/form}" method="post" th:object="${cliente}">
-			<table>
-				<tr>
-					<td>Nombre</td>
-					<td><input class="form-control" type="text"
-						th:field="*{nombre}" /></td>
-				</tr>
-				<tr>
-					<td>Apellido</td>
-					<td><input class="form-control" type="text"
-						th:field="*{apellido}" /></td>
-				</tr>
-				<tr>
-					<td>Email</td>
-					<td><input class="form-control" type="email"
-						th:field="*{email}" /></td>
-				</tr>
-				<tr>
-					<td><input class="form-control" type="submit"
-						value="Crear Cliente" /></td>
-				</tr>
-			</table>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Nombre</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" th:field="*{nombre}"
+						th:errorclass="'form-floating is-invalid'" /> <small
+						class="form text text-danger"
+						th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Apellido</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" th:field="*{apellido}"
+						th:errorclass="'form-floating is-invalid'" /> <small
+						class="form text text-danger"
+						th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></small>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Email</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" th:field="*{email}"
+						th:errorclass="'form-floating is-invalid'" /> <small
+						class="form text text-danger"
+						th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+				</div>
+
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Fecha</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="date" th:field="*{createAt}"
+						th:errorclass="'form-floating is-invalid'" /> <small
+						class="form text text-danger"
+						th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+				</div>
+
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-6">
+					<input class="btn btn-primary" type="submit" value="Crear Cliente" />
+				</div>
+			</div>
 			<input type="hidden" th:field="*{id}" />
 		</form>
 	</div>
