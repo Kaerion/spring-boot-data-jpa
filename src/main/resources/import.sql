@@ -6,3 +6,15 @@ INSERT into clientes (nombre, apellido, email, create_at) values ('Frodo', 'Bols
 INSERT into clientes (nombre, apellido, email, create_at) values ('Sam', 'Sagaz', 'sam@latierramedia.com', NOW());
 INSERT into clientes (nombre, apellido, email, create_at) values ('Merry', 'Brandigamo', 'merry@latierramedia.com', NOW());
 INSERT into clientes (nombre, apellido, email, create_at) values ('Pipin', 'Tuck', 'pipin@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Pepe', 'El Gris', 'email1@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Paco', 'Hijo de Arazorn', 'email2@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Jose', 'Hijo de Gloyn', 'email3@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Jhon', 'Del Bosque', 'email4@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Federico', 'Bolson', 'email5@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Diana', 'Sagaz', 'email6@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Antonio', 'Brandigamo', 'email7@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Pedro', 'Tuck', 'email8@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Pedro', 'Bolson', 'email15@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Manolo', 'Sagaz', 'email16@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Marcos', 'Brandigamo', 'email17@latierramedia.com', NOW());
+INSERT into clientes (nombre, apellido, email, create_at) values ('Javi', 'Tuck', 'email18@latierramedia.com', NOW());
