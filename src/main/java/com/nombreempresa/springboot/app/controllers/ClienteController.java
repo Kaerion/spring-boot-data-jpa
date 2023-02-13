@@ -1,5 +1,6 @@
 package com.nombreempresa.springboot.app.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +41,8 @@ public class ClienteController {
 	private IClienteService clienteService;
 
 	private final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
+
+	private final static String UPLOADS_FOLDER = "uploads";
 
 	@GetMapping(value = "/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
@@ -88,6 +91,16 @@ public class ClienteController {
 		}
 
 		if (!foto.isEmpty()) {
+			if (cliente.getId() != null && cliente.getId() > 0 && cliente.getFoto() != null
+					&& cliente.getFoto().length() > 0) {
+				Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
+				File archivo = rootPath.toFile();
+
+				if (archivo.exists() && archivo.canRead()) {
+					archivo.delete();
+				}
+			}
+
 //			Path directorioRecursos = Paths.get("src//main//resources//static/uploads");    Ruta interna del proyecto
 //			String rootPath = directorioRecursos.toFile().getAbsolutePath();
 
@@ -100,8 +113,8 @@ public class ClienteController {
 																										// guardar de
 																										// forma
 																										// dinamica
-			Path rootPath = Paths.get("uploads").resolve(uniqueFileName); // Crear directorio dentro del root del
-																			// proyecto
+			Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(uniqueFileName); // Crear directorio dentro del root del
+																				// proyecto
 			Path rootAbsolutPath = rootPath.toAbsolutePath();
 			log.info("Root path = " + rootPath.toString());
 			log.info("Root absolute path = " + rootAbsolutPath.toString());
@@ -151,7 +164,17 @@ public class ClienteController {
 	@RequestMapping(value = "/eliminar/{id}")
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash, SessionStatus status) {
 		if (id > 0) {
+			Cliente cliente = clienteService.findById(id);
 			clienteService.delete(id);
+
+			Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
+			File archivo = rootPath.toFile();
+
+			if (archivo.exists() && archivo.canRead()) {
+				if (archivo.delete()) {
+					flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada con exito.");
+				}
+			}
 		}
 
 		status.setComplete();
