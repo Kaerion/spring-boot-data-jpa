@@ -1,7 +1,5 @@
 package com.nombreempresa.springboot.app;
 
-import java.nio.file.Paths;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +24,9 @@ public class MvcConfig implements WebMvcConfigurer {
 		// dinamico ya que no requiere la creacion por parte del usuario de la carpeta
 		// contenedora de imagenes pero debe existir la carpeta creada dentro del
 		// proyecto
-		String resourcePath = Paths.get("uploads").toAbsolutePath().toUri().toString();
-		log.info(resourcePath);
-		registry.addResourceHandler("/uploads/**").addResourceLocations(resourcePath);
+//		String resourcePath = Paths.get("uploads").toAbsolutePath().toUri().toString();
+//		log.info(resourcePath);
+//		registry.addResourceHandler("/uploads/**").addResourceLocations(resourcePath);
 	}
 
 }

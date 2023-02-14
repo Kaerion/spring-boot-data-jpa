@@ -1,18 +1,16 @@
 package com.nombreempresa.springboot.app.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.MalformedURLException;
 import java.util.Map;
-import java.util.UUID;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nombreempresa.springboot.app.models.entity.Cliente;
 import com.nombreempresa.springboot.app.models.service.IClienteService;
+import com.nombreempresa.springboot.app.models.service.IUploadFileService;
 import com.nombreempresa.springboot.app.util.paginator.PageRender;
 
 import jakarta.validation.Valid;
@@ -40,9 +39,24 @@ public class ClienteController {
 	@Autowired
 	private IClienteService clienteService;
 
-	private final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
+	@Autowired
+	private IUploadFileService uploadFileService;
 
-	private final static String UPLOADS_FOLDER = "uploads";
+	@GetMapping(value = "/uploads/{filename:.+}")
+	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
+
+		Resource resource = null;
+		try {
+			resource = uploadFileService.load(filename);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
 
 	@GetMapping(value = "/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
@@ -83,6 +97,7 @@ public class ClienteController {
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
 			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
+
 		String flashMessage = (cliente.getId() != null) ? "Cliente editado con exito!" : "Cliente creado con exito!";
 
 		if (result.hasErrors()) {
@@ -93,12 +108,7 @@ public class ClienteController {
 		if (!foto.isEmpty()) {
 			if (cliente.getId() != null && cliente.getId() > 0 && cliente.getFoto() != null
 					&& cliente.getFoto().length() > 0) {
-				Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
-				File archivo = rootPath.toFile();
-
-				if (archivo.exists() && archivo.canRead()) {
-					archivo.delete();
-				}
+				uploadFileService.delete(cliente.getFoto());
 			}
 
 //			Path directorioRecursos = Paths.get("src//main//resources//static/uploads");    Ruta interna del proyecto
@@ -107,32 +117,18 @@ public class ClienteController {
 //			String rootPath = "D://Desarrollo//uploads"; // Ruta directorio externo al proyecto. Ruta en maquina que
 			// ejecuta el servicio
 
-			String uniqueFileName = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename(); // Genero el nombre
-																										// de la foto
-																										// que se va a
-																										// guardar de
-																										// forma
-																										// dinamica
-			Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(uniqueFileName); // Crear directorio dentro del root del
-																				// proyecto
-			Path rootAbsolutPath = rootPath.toAbsolutePath();
-			log.info("Root path = " + rootPath.toString());
-			log.info("Root absolute path = " + rootAbsolutPath.toString());
-			log.info("Unique file name: " + uniqueFileName);
-
+			String uniqueFilename = null;
 			try {
-//				byte[] bytes = foto.getBytes();													//Logica para ña transformacion del archivo desde ruta interna o pc local
-//				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
-//				Files.write(rutaCompleta, bytes);
-
-				Files.copy(foto.getInputStream(), rootAbsolutPath);
-				flash.addFlashAttribute("info", "Se ha subido correctamente la foto: " + uniqueFileName);
-
-				cliente.setFoto(uniqueFileName);
+				uniqueFilename = uploadFileService.copy(foto);
 			} catch (IOException e) {
-				flash.addFlashAttribute("error", "Ha habido un fallo al subir la imagen: " + uniqueFileName);
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			flash.addFlashAttribute("info", "Se ha subido correctamente la foto: " + uniqueFilename);
+
+			cliente.setFoto(uniqueFilename);
+
 		}
 
 		clienteService.save(cliente);
@@ -167,14 +163,10 @@ public class ClienteController {
 			Cliente cliente = clienteService.findById(id);
 			clienteService.delete(id);
 
-			Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
-			File archivo = rootPath.toFile();
-
-			if (archivo.exists() && archivo.canRead()) {
-				if (archivo.delete()) {
-					flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada con exito.");
-				}
+			if (uploadFileService.delete(cliente.getFoto())) {
+				flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada con exito.");
 			}
+
 		}
 
 		status.setComplete();
