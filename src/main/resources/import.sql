@@ -18,3 +18,11 @@ INSERT into clientes (nombre, apellido, email, create_at, foto) values ('Pedro',
 INSERT into clientes (nombre, apellido, email, create_at, foto) values ('Manolo', 'Sagaz', 'email16@latierramedia.com', NOW(), '');
 INSERT into clientes (nombre, apellido, email, create_at, foto) values ('Marcos', 'Brandigamo', 'email17@latierramedia.com', NOW(), '');
 INSERT into clientes (nombre, apellido, email, create_at, foto) values ('Javi', 'Tuck', 'email18@latierramedia.com', NOW(), '');
+
+INSERT into productos (nombre, precio, create_at) values ('LG Monitor LCD 24 pulgadas', 250, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Camara digital Sony DSC-W3401', 150, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Apple Watch 4', 400, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Sony Vaio notebook', 700, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Mica comoda 5 cajones', 50, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Bianchi Bicicleta Aro 26', 320, NOW());
+INSERT into productos (nombre, precio, create_at) values ('Impresora Packard Bell G841G', 250, NOW());
