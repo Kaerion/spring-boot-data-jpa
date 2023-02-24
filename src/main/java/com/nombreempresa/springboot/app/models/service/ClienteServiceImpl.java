@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nombreempresa.springboot.app.models.dao.IClienteCrudDao;
 import com.nombreempresa.springboot.app.models.dao.IClienteDao;
+import com.nombreempresa.springboot.app.models.dao.IProductoDao;
 import com.nombreempresa.springboot.app.models.entity.Cliente;
+import com.nombreempresa.springboot.app.models.entity.Producto;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
@@ -20,6 +22,9 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private IClienteCrudDao clienteCrudDao;
+
+	@Autowired
+	private IProductoDao productoDao;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -49,6 +54,11 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional
 	public void delete(Long id) {
 		clienteCrudDao.deleteById(id);
+	}
+
+	@Override
+	public List<Producto> findByName(String term) {
+		return productoDao.findByName(term);
 	}
 
 }
