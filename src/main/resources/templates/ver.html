@@ -18,7 +18,7 @@
 					<li class="list-group-item" th:text="${cliente.email}"></li>
 					<li class="list-group-item" th:text="${cliente.createAt}"></li>
 				</ul>
-				<div class="alert alert-info my-4" th:text="'No hay facturas asignadas para el cliente ' + ${cliente.nombre}"></div>
+				<div th:if="${#lists.isEmpty(cliente.facturas)}" class="alert alert-info my-4" th:text="'No hay facturas asignadas para el cliente ' + ${cliente.nombre}"></div>
 				<table class="table table-bordered table-striped my-4">
 					<thead>
 						<tr>

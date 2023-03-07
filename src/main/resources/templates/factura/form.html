@@ -7,7 +7,7 @@
 		<div class="card bg-light">
 			<div class="card-header" th:text="${titulo}"></div>
 			<div class="card-body">
-				<form th:action="@{/factura/form/}" th:object="${factura}"
+				<form th:action="@{/factura/form}" th:object="${factura}"
 					method="post">
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label" th:text="'Cliente'"></label>

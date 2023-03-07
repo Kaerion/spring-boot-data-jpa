@@ -47,6 +47,11 @@
 			});
 		});
 		
+		$("form").submit(function(){
+			$("#plantillaItemsFactura").remove();
+			return;
+		});
+		
 		var itemsHelper = {
 				calcularImporte: function(id, precio, cantidad){
 					$("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
