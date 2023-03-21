@@ -7,10 +7,6 @@
 		<div class="card bg-light">
 			<div class="card-header" th:text="${titulo}"></div>
 			<div class="card-body">
-			<h4 class="card-title">
-				<a class="btn btn-primary btn-xs" th:href="@{/form}">Crear
-					Cliente</a>
-			</h4>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -41,6 +37,10 @@
 					</tbody>
 				</table>
 				<nav th:replace="paginator-nav :: paginator"></nav>
+				<h4 class="card-title">
+				<a class="btn btn-primary btn-xs" th:href="@{/form}">Crear
+					Cliente</a>
+			</h4>
 			</div>
 		</div>
 	</div>
