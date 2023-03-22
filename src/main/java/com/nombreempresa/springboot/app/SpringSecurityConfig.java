@@ -33,7 +33,7 @@ public class SpringSecurityConfig {
 				.requestMatchers("/ver/**").hasAnyRole("USER").requestMatchers("/uploads/**").hasAnyRole("USER")
 				.requestMatchers("/form/**").hasAnyRole("ADMIN").requestMatchers("/eliminar/**").hasAnyRole("ADMIN")
 				.requestMatchers("/factura/**").hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
-				.permitAll().and().logout().permitAll();
+				.loginPage("/login").permitAll().and().logout().permitAll();
 		return http.build();
 	}
 }
