@@ -3,17 +3,15 @@ package com.nombreempresa.springboot.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.nombreempresa.springboot.app.auth.handler.LoginSuccessHandler;
+import com.nombreempresa.springboot.app.models.service.JpaUsersDetailsService;
 
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true) // Habilita la seguridad mediante anotaciones en el
 																	// controlador en lugar de
@@ -29,16 +27,34 @@ public class SpringSecurityConfig {
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
 
-	@Bean
-	public UserDetailsService configurerGlobal(PasswordEncoder encoder) {
-		User admin = (User) User.withUsername("admin").password(encoder.encode("admin")).roles("ADMIN", "USER").build();
-		User user = (User) User.withUsername("user").password(encoder.encode("user")).roles("USER").build();
-		return new InMemoryUserDetailsManager(admin, user);
-	}
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Autowired
+	private JpaUsersDetailsService usersDetailsService;
+
+// 	Necesario para el metodo de JDBC
+//	@Autowired
+//	private DataSource dataSource;
+
+	@Autowired
+	public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
+
+		// (PasswordEncoder encode)
+//		User admin = (User) User.withUsername("admin").password(encoder.encode("admin")).roles("ADMIN", "USER").build();
+//		User user = (User) User.withUsername("user").password(encoder.encode("user")).roles("USER").build();
+//		return new InMemoryUserDetailsManager(admin, user);
+
+		// (AuthenticationManagerBuilder build) Para obtencion desde base de datos con
+		// Spring JDBC
+//		build.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder)
+//				.usersByUsernameQuery("select username, password, enabled from users where username=?")
+//				.authoritiesByUsernameQuery(
+//						"select u.username, a.authority from authorities a inner join users u on (a.user_id=u.id) where u.username = ?");
+
+		// Spring JPA
+		build.userDetailsService(usersDetailsService).passwordEncoder(passwordEncoder);
+
 	}
 
 	@Bean

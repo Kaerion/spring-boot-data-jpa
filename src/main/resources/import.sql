@@ -26,3 +26,10 @@ INSERT into productos (nombre, precio, create_at) values ('Sony Vaio notebook', 
 INSERT into productos (nombre, precio, create_at) values ('Mica comoda 5 cajones', 50, NOW());
 INSERT into productos (nombre, precio, create_at) values ('Bianchi Bicicleta Aro 26', 320, NOW());
 INSERT into productos (nombre, precio, create_at) values ('Impresora Packard Bell G841G', 250, NOW());
+
+INSERT INTO users (username, password, enabled) values ('admin', '$2a$10$PKXE6mav7Rf/2HNcHRpkpecH2gWGaCnulFjZQS/bOauMmDZ71F2Ga', 1);
+INSERT INTO users (username, password, enabled) values ('user', '$2a$10$2FzjpDI2wiZK6C6ZJYZm7.uAVqnWZDXnPMXFp6kMmNEl6/iuOJLoK', 1);
+
+INSERT INTO authorities (user_id, authority) values (1, 'ROLE_USER');
+INSERT INTO authorities (user_id, authority) values (1, 'ROLE_ADMIN');
+INSERT INTO authorities (user_id, authority) values (2, 'ROLE_USER');
