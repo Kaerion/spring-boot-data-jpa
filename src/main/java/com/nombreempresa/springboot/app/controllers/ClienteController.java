@@ -3,11 +3,13 @@ package com.nombreempresa.springboot.app.controllers;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,6 +56,9 @@ public class ClienteController {
 	@Autowired
 	private IUploadFileService uploadFileService;
 
+	@Autowired
+	private MessageSource messageSource;
+
 	@Secured("ROLE_USER")
 	@GetMapping(value = "/uploads/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
@@ -73,10 +78,11 @@ public class ClienteController {
 
 	@Secured("ROLE_USER")
 	@GetMapping(value = "/ver/{id}")
-	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash,
+			Locale locale) {
 		Cliente cliente = clienteService.findById(id);
 		if (cliente == null) {
-			flash.addAttribute("error", "El cliente no existe");
+			flash.addAttribute("error", messageSource.getMessage("text.cliente.flash.db.error", null, locale));
 			return "redirect:/listar";
 		}
 
@@ -88,7 +94,7 @@ public class ClienteController {
 
 	@RequestMapping(value = { "/listar", "/" }, method = RequestMethod.GET)
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
-			Authentication authentication, HttpServletRequest request) {
+			Authentication authentication, HttpServletRequest request, Locale locale) {
 
 		if (authentication != null) {
 			logger.info("Hola usuario autentificado, tu username es:  " + authentication.getName());
@@ -129,7 +135,7 @@ public class ClienteController {
 
 		PageRender<Cliente> pageRender = new PageRender<>("/listar", clientes);
 
-		model.addAttribute("titulo", "Listado de clientes");
+		model.addAttribute("titulo", messageSource.getMessage("text.interfaz.listadoclientes", null, locale));
 		model.addAttribute("clientes", clientes);
 		model.addAttribute("page", pageRender);
 		return "listar";
@@ -137,10 +143,10 @@ public class ClienteController {
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "/form")
-	public String crear(Map<String, Object> model) {
+	public String crear(Map<String, Object> model, Locale locale) {
 		Cliente cliente = new Cliente();
 		model.put("cliente", cliente);
-		model.put("titulo", "Formulario de Cliente");
+		model.put("titulo", messageSource.getMessage("text.interfaz.listadoclientes", null, locale));
 		return "form";
 	}
 
