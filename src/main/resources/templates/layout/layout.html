@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
 <meta charset="UTF-8" />
-<title th:text="'Spring Boot Proyect' + ${titulo}"></title>
+<title th:text="'Spring Boot Invoices Proyect'"></title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
 <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet" />
 </head>
@@ -26,8 +26,8 @@
 						</li>
 					</ul>
 					<ul class="ms-auto navbar-nav mx-3" style="margin-right:-88.5rem !important;">
-						<li class="nav-item mx-1"><a class="btn btn-outline-success" href="?lang=es_ES">ES</a></li>
-						<li class="nav-item mx-1"><a class="btn btn-outline-success" href="?lang=en_US">EN</a></li>
+						<li class="nav-item mx-1"><a class="btn btn-outline-success" th:href="@{/locale(lang=es_ES)}">ES</a></li>
+						<li class="nav-item mx-1"><a class="btn btn-outline-success" th:href="@{/locale(lang=en_US)}">EN</a></li>
 					</ul>
 					<ul class="ms-auto navbar-nav">
 						<li sec:authorize="!isAuthenticated()" class="nav-item"><a

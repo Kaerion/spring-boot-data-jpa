@@ -5,7 +5,7 @@
 	<header th:replace="layout/layout :: header"></header>
 	<div class="container py-4">
 		<div class="card bg-light text-center">
-			<div class="card-header">Log in</div>
+			<div class="card-header" th:text="#{text.interfaz.signin}"></div>
 			<div class="card-body d-flex justify-content-center align-items-center">
 				<form th:action="@{/login}" method="post" class="col-lg-4">
 					<div class="form-group m-2">
