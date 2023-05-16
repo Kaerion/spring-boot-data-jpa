@@ -57,6 +57,7 @@
 				<h4 class="card-title my-3">
 					<a th:href="@{'/ver/' + ${factura.cliente.id}}"
 						class="btn btn-dark btn-xs" th:text="'&laquo; Atras'"></a>
+					<a class="btn btn-danger btn-xs float-right" th:href="@{'/factura/ver/' + ${factura.id}(format=pdf)}">PDF</a>
 				</h4>
 
 			</div>
