@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -86,6 +88,7 @@ public class Factura implements Serializable {
 		this.createAt = createAt;
 	}
 
+	@XmlTransient
 	public Cliente getCliente() {
 		return cliente;
 	}

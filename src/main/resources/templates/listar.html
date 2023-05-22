@@ -38,8 +38,10 @@
 				</table>
 				<nav th:replace="paginator-nav :: paginator"></nav>
 				<h4 class="card-title">
-				<a th:text="#{text.button.crearcliente}" sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/form}" ></a>
-			</h4>
+					<a th:text="#{text.button.crearcliente}" sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/form}" ></a>
+					<a class="btn btn-success btn-xs float-right" th:href="@{'/listar' (format=csv)}">CSV</a>
+					<a class="btn btn-danger btn-xs float-right" th:href="@{'/listar' (format=xml)}">XML</a>
+				</h4>
 			</div>
 		</div>
 	</div>
