@@ -53,7 +53,7 @@ public class Cliente implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createAt;
 
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference // Se maneja la relacion ciclica con Clientes
 	private List<Factura> facturas;
 

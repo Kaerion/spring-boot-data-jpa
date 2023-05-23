@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.nombreempresa.springboot.app.models.entity.Cliente;
-import com.nombreempresa.springboot.app.view.xml.ClienteList;
 
 @Component("listar.json")
 public class ClienteListJsonView extends MappingJackson2JsonView {
@@ -21,7 +20,7 @@ public class ClienteListJsonView extends MappingJackson2JsonView {
 		Page<Cliente> clientes = (Page<Cliente>) model.get("clientes");
 		model.remove("clientes");
 		model.remove("cliente");
-		model.put("clientesList", new ClienteList(clientes.getContent()));
+		model.put("clientes", clientes.getContent());
 
 		return super.filterModel(model);
 	}
