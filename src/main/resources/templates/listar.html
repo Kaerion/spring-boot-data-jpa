@@ -41,6 +41,7 @@
 					<a th:text="#{text.button.crearcliente}" sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary btn-xs" th:href="@{/form}" ></a>
 					<a class="btn btn-success btn-xs float-right" th:href="@{'/listar' (format=csv)}">CSV</a>
 					<a class="btn btn-danger btn-xs float-right" th:href="@{'/listar' (format=xml)}">XML</a>
+					<a class="btn btn-warning btn-xs float-right" th:href="@{'/listar' (format=json)}">JSON</a>
 				</h4>
 			</div>
 		</div>

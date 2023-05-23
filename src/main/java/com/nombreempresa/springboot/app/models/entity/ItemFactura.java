@@ -2,6 +2,8 @@ package com.nombreempresa.springboot.app.models.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,8 @@ public class ItemFactura implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "producto_id") // No seria necesario ya que lo generaria automaticamente
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" }) // Evita los atributos proxys y handler para que no
+																		// aparezcan en el json
 	private Producto producto;
 
 	public Long getId() {
