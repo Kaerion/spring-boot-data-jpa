@@ -106,28 +106,25 @@ public class ClienteController {
 		// Otra manera de obtener el rol y checkearlo
 		SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request,
 				"");
-		if (securityContext.isUserInRole("ROLE_ADMIN")) {
-			logger.info("Forma usando SecurityContextHolderAwareRequestWrapper: Hola " + authentication.getName()
-					+ " tienes rol de admin ");
-		} else {
-			logger.info("Forma usando SecurityContextHolderAwareRequestWrapper: Hola " + authentication.getName()
-					+ " no tienes rol de admin ");
-		}
-		/////////////////////////////////////////////////////////
-		// Tambien se puede comparar usando el objeto HttpServletRequest
-		if (request.isUserInRole("ROLE_ADMIN")) {
-			logger.info("Forma usando HttpServletRequest: Hola " + authentication.getName() + " tienes rol de admin ");
-		} else {
-			logger.info(
-					"Forma usando HttpServletRequest: Hola " + authentication.getName() + " no tienes rol de admin ");
-		}
-
-		/////////////////////////////////////////////////////////
-		if (hasRole("ROLE_ADMIN")) {
-			logger.info("El usuario tiene accesso de administrador");
-		} else {
-			logger.info("El usuario no tiene accesso de administrador");
-		}
+		/*
+		 * if (securityContext.isUserInRole("ROLE_ADMIN")) {
+		 * logger.info("Forma usando SecurityContextHolderAwareRequestWrapper: Hola " +
+		 * authentication.getName() + " tienes rol de admin "); } else {
+		 * logger.info("Forma usando SecurityContextHolderAwareRequestWrapper: Hola " +
+		 * authentication.getName() + " no tienes rol de admin "); }
+		 * ///////////////////////////////////////////////////////// // Tambien se puede
+		 * comparar usando el objeto HttpServletRequest if
+		 * (request.isUserInRole("ROLE_ADMIN")) {
+		 * logger.info("Forma usando HttpServletRequest: Hola " +
+		 * authentication.getName() + " tienes rol de admin "); } else { logger.info(
+		 * "Forma usando HttpServletRequest: Hola " + authentication.getName() +
+		 * " no tienes rol de admin "); }
+		 * 
+		 * ///////////////////////////////////////////////////////// if
+		 * (hasRole("ROLE_ADMIN")) {
+		 * logger.info("El usuario tiene accesso de administrador"); } else {
+		 * logger.info("El usuario no tiene accesso de administrador"); }
+		 */
 
 		Pageable pageable = PageRequest.of(page, 5);
 
